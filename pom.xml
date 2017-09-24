@@ -6,7 +6,7 @@
 
 	<parent>
 		<groupId>com.ulfric.parent</groupId>
-		<artifactId>plugin</artifactId>
+		<artifactId>bukkit</artifactId>
 		<version>1.0.0</version>
 	</parent>
 
@@ -14,37 +14,11 @@
 	<artifactId>plugin</artifactId>
 	<version>1.0.0</version>
 
-	<properties>
-		<pluginScope>compile</pluginScope>
-	</properties>
-
 	<dependencies>
 		<dependency>
-			<groupId>com.ulfric.servix</groupId>
-			<artifactId>servix</artifactId>
+			<groupId>com.ulfric.commons</groupId>
+			<artifactId>commons</artifactId>
 			<version>1.0.0</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.ulfric.palpatine</groupId>
-			<artifactId>palpatine</artifactId>
-			<version>1.0.0</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.ulfric.etruscans</groupId>
-			<artifactId>etruscans</artifactId>
-			<version>1.0.0</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.ulfric.monty</groupId>
-			<artifactId>monty</artifactId>
-			<version>1.0.0</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
