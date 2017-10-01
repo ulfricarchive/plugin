@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.ulfric.commons.reflect.FieldHelper;
 import com.ulfric.dragoon.ObjectFactory;
 import com.ulfric.dragoon.application.Container;
+import com.ulfric.dragoon.application.Feature;
 import com.ulfric.dragoon.application.Hookable;
 import com.ulfric.dragoon.application.ThreadClassLoaderState;
 import com.ulfric.dragoon.extension.Extensible;
@@ -25,6 +26,8 @@ public abstract class Plugin extends JavaPlugin implements Extensible<Class<?>>,
 		if (PLUGIN_FIELD != null) {
 			PLUGIN_FIELD.setAccessible(true);
 		}
+
+		Feature.register(new FeatureFeature());
 	}
 
 	public static Plugin getProvidingPlugin(Class<?> type) {
