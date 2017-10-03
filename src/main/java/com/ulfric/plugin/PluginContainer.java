@@ -3,11 +3,9 @@ package com.ulfric.plugin;
 import com.google.common.base.CaseFormat;
 
 import com.ulfric.dragoon.application.Container;
-import com.ulfric.dragoon.extension.loader.Loader;
 
 import java.util.Objects;
 
-@Loader
 public class PluginContainer extends Container {
 
 	private final String name;
@@ -28,6 +26,11 @@ public class PluginContainer extends Container {
 
 	@Override
 	protected void log(String message) {
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + '/' + name;
 	}
 
 }

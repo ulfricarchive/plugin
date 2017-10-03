@@ -4,15 +4,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.ulfric.commons.reflect.FieldHelper;
 import com.ulfric.dragoon.ObjectFactory;
-import com.ulfric.dragoon.application.Container;
 import com.ulfric.dragoon.application.Feature;
 import com.ulfric.dragoon.application.Hookable;
 import com.ulfric.dragoon.application.ThreadClassLoaderState;
 import com.ulfric.dragoon.extension.Extensible;
+import com.ulfric.dragoon.reflect.Classes;
 import com.ulfric.dragoon.value.Result;
 import com.ulfric.tryto.TryTo;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public abstract class Plugin extends JavaPlugin implements Extensible<Class<?>>, Hookable {
 
@@ -28,6 +29,27 @@ public abstract class Plugin extends JavaPlugin implements Extensible<Class<?>>,
 		}
 
 		Feature.register(new FeatureFeature());
+	}
+
+	public static Plugin getProvidingPlugin(Object value) {
+		Objects.requireNonNull(value, "value");
+
+		if (value instanceof Plugin) {
+			return (Plugin) value;
+		}
+
+		if (value instanceof ClassLoader) {
+			return getProvidedPlugin((ClassLoader) value);
+		}
+
+		Class<?> type;
+		if (value instanceof Class) {
+			type = (Class<?>) value;
+		} else {
+			type = value.getClass();
+		}
+
+		return getProvidingPlugin(type);
 	}
 
 	public static Plugin getProvidingPlugin(Class<?> type) {
@@ -59,8 +81,13 @@ public abstract class Plugin extends JavaPlugin implements Extensible<Class<?>>,
 		return type.isInstance(plugin) ? type.cast(plugin) : null;
 	}
 
-	private final Container container = FACTORY.request(PluginContainer.class, this);
-	private final ThreadClassLoaderState state = new ThreadClassLoaderState(getClass().getClassLoader());
+	private final PluginContainer container;
+	private final ThreadClassLoaderState state = new ThreadClassLoaderState(getClassLoader());
+
+	public Plugin() {
+		Class<? extends PluginContainer> containerType = Classes.translate(PluginContainer.class, getClassLoader());
+		container = FACTORY.request(containerType, this);
+	}
 
 	@Override
 	public final Result install(Class<?> application) {
