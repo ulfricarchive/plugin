@@ -31,6 +31,10 @@ public abstract class Plugin extends JavaPlugin implements Extensible<Class<?>>,
 		Feature.register(new FeatureFeature());
 	}
 
+	public static ObjectFactory getStandardFactory() {
+		return FACTORY;
+	}
+
 	public static Plugin getProvidingPlugin(Object value) {
 		Objects.requireNonNull(value, "value");
 
