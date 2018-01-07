@@ -20,6 +20,8 @@ public abstract class Plugin extends JavaPlugin implements Extensible<Class<?>>,
 	static final Class<?> LOADER_TYPE = Plugin.class.getClassLoader().getClass();
 	static final Field PLUGIN_FIELD = FieldHelper.getDeclaredField(LOADER_TYPE, "plugin")
 			.orElse(null);
+	static final Field PLUGIN_FIELD_ALTERNATE = FieldHelper.getDeclaredField(LOADER_TYPE, "pluginInit")
+			.orElse(null);
 
 	protected static final ObjectFactory FACTORY = new ObjectFactory();
 
@@ -71,6 +73,9 @@ public abstract class Plugin extends JavaPlugin implements Extensible<Class<?>>,
 
 		if (LOADER_TYPE.isInstance(loader)) {
 			Object plugin = TryTo.get(() -> PLUGIN_FIELD.get(loader));
+			if (plugin == null) {
+				plugin = TryTo.get(() -> PLUGIN_FIELD_ALTERNATE.get(loader));
+			}
 			if (plugin instanceof Plugin) {
 				return (Plugin) plugin;
 			}
